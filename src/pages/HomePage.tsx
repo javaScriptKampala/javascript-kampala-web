@@ -25,9 +25,10 @@ import {
   User,
   PartyPopper,
   Sparkles,
+  Mail,
 } from "lucide-react";
 import { SiteChrome } from "../components/SiteChrome";
-import { TICKETDADDY_URL } from "../constants";
+import { CONTACT_EMAIL, SOCIAL_URLS, TICKETDADDY_URL } from "../constants";
 
 const container = {
   hidden: { opacity: 0 },
@@ -493,11 +494,12 @@ export default function HomePage() {
             <span className="badge">BUILDING SINCE 2019</span>
             <span className="uppercase tracking-widest opacity-60">KAMPALA, UGANDA // [0.3476° N, 32.5825° E]</span>
           </div>
-          <div className="flex gap-6">
-            <a href="#" className="hover:text-js-yellow transition-colors"><Twitter size={16} /></a>
-            <a href="#" className="hover:text-js-yellow transition-colors"><Linkedin size={16} /></a>
-            <a href="#" className="hover:text-js-yellow transition-colors"><Github size={16} /></a>
-            <a href="#" className="hover:text-js-yellow transition-colors"><Youtube size={16} /></a>
+          <div className="flex flex-wrap justify-center gap-6">
+            <a href={SOCIAL_URLS.twitter} target="_blank" rel="noopener noreferrer" className="hover:text-js-yellow transition-colors" aria-label="Twitter"><Twitter size={16} /></a>
+            <a href={SOCIAL_URLS.linkedin} target="_blank" rel="noopener noreferrer" className="hover:text-js-yellow transition-colors" aria-label="LinkedIn"><Linkedin size={16} /></a>
+            <a href={SOCIAL_URLS.github} target="_blank" rel="noopener noreferrer" className="hover:text-js-yellow transition-colors" aria-label="GitHub"><Github size={16} /></a>
+            <a href={SOCIAL_URLS.youtube} target="_blank" rel="noopener noreferrer" className="hover:text-js-yellow transition-colors" aria-label="YouTube"><Youtube size={16} /></a>
+            <a href={`mailto:${CONTACT_EMAIL}`} className="hover:text-js-yellow transition-colors" aria-label="Email"><Mail size={16} /></a>
           </div>
           <div className="italic opacity-60">
             v5.0.0-stable &copy; {new Date().getFullYear()} JavaScript Kampala

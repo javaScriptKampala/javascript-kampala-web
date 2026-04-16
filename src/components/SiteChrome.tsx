@@ -7,6 +7,7 @@ import {Link} from 'react-router-dom';
 import {
   Github,
   Linkedin,
+  Mail,
   PartyPopper,
   Sparkles,
   Ticket,
@@ -14,7 +15,7 @@ import {
   Youtube,
 } from 'lucide-react';
 import type {ReactNode} from 'react';
-import {TICKETDADDY_URL} from '../constants';
+import {CONTACT_EMAIL, SOCIAL_URLS, TICKETDADDY_URL} from '../constants';
 
 type SiteChromeProps = {
   children: ReactNode;
@@ -46,18 +47,44 @@ export function SiteChrome({children}: SiteChromeProps) {
           <div className="text-[10px] font-bold uppercase tracking-[0.2em] opacity-40">
             Kampala, Uganda // [0.3476° N, 32.5825° E]
           </div>
-          <div className="flex gap-6">
-            <a href="#" className="social-link-top">
+          <div className="flex flex-wrap justify-end gap-x-6 gap-y-2">
+            <a
+              href={SOCIAL_URLS.twitter}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="social-link-top"
+            >
               <Twitter size={12} /> Twitter
             </a>
-            <a href="#" className="social-link-top">
+            <a
+              href={SOCIAL_URLS.linkedin}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="social-link-top"
+            >
               <Linkedin size={12} /> LinkedIn
             </a>
-            <a href="#" className="social-link-top">
+            <a
+              href={SOCIAL_URLS.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="social-link-top"
+            >
               <Github size={12} /> GitHub
             </a>
-            <a href="#" className="social-link-top">
+            <a
+              href={SOCIAL_URLS.youtube}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="social-link-top"
+            >
               <Youtube size={12} /> YouTube
+            </a>
+            <a
+              href={`mailto:${CONTACT_EMAIL}`}
+              className="social-link-top"
+            >
+              <Mail size={12} /> Email
             </a>
           </div>
         </div>

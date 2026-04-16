@@ -3,6 +3,7 @@ import react from '@vitejs/plugin-react';
 import path from 'path';
 import {defineConfig, loadEnv} from 'vite';
 import {Resend} from 'resend';
+import {CONTACT_EMAIL, SOCIAL_URLS} from './src/constants';
 
 const DEFAULT_FROM_EMAIL =
   'JavaScript Kampala <noreply@mail.javascriptkampala.org>';
@@ -23,6 +24,17 @@ function parseCcList(raw: string | undefined): string[] {
     .split(',')
     .map((s) => s.trim())
     .filter(Boolean);
+}
+
+function socialLinksBlock(): string {
+  return [
+    'Find us online:',
+    `X: ${SOCIAL_URLS.twitter}`,
+    `LinkedIn: ${SOCIAL_URLS.linkedin}`,
+    `GitHub: ${SOCIAL_URLS.github}`,
+    `YouTube: ${SOCIAL_URLS.youtube}`,
+    `Email: ${CONTACT_EMAIL}`,
+  ].join('\n');
 }
 
 export default defineConfig(({mode}) => {
@@ -88,6 +100,9 @@ export default defineConfig(({mode}) => {
               const lines = Object.entries(payload).map(
                 ([key, value]) => `${key}: ${value}`,
               );
+              const teamBody = [lines.join('\n'), '', socialLinksBlock()].join(
+                '\n',
+              );
 
               await resend.emails.send({
                 from: fromEmail,
@@ -95,7 +110,7 @@ export default defineConfig(({mode}) => {
                 cc: cc.length > 0 ? cc : undefined,
                 subject: `[${typeLabel}] JavaScript Kampala Website`,
                 replyTo: submitterEmail,
-                text: lines.join('\n'),
+                text: teamBody,
               });
 
               const isSponsor = body.type === 'sponsor';
@@ -108,7 +123,9 @@ export default defineConfig(({mode}) => {
                 '',
                 `Thanks for contacting JavaScript Kampala. We've received your ${kind} and will get back to you shortly.`,
                 '',
-                'This address is not monitored for replies. If you need to add anything else, email javascriptkampala@gmail.com.',
+                `This address is not monitored for replies. If you need to add anything else, email ${CONTACT_EMAIL}.`,
+                '',
+                socialLinksBlock(),
                 '',
                 '— JavaScript Kampala',
               ].join('\n');
