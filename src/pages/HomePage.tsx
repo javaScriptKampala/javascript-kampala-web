@@ -199,17 +199,35 @@ export default function HomePage() {
     const next = () => setCurrentIndex((prev) => (prev + 1) % images.length);
     const prev = () => setCurrentIndex((prev) => (prev - 1 + images.length) % images.length);
 
+    useEffect(() => {
+      const onKey = (e: KeyboardEvent) => {
+        if (e.key === "Escape") onClose();
+      };
+      document.addEventListener("keydown", onKey);
+      return () => document.removeEventListener("keydown", onKey);
+    }, [onClose]);
+
     return (
-      <div className="fixed inset-0 z-[200] flex items-center justify-center bg-js-black/98 backdrop-blur-xl">
-        <button onClick={onClose} className="absolute top-10 right-10 text-white/40 hover:text-js-yellow z-50">
+      <div className="fixed inset-0 z-[200] flex items-center justify-center bg-js-black/98 backdrop-blur-xl pt-[env(safe-area-inset-top)] pb-[env(safe-area-inset-bottom)]">
+        <button
+          type="button"
+          onClick={onClose}
+          className="absolute top-4 right-4 md:top-10 md:right-10 text-white/40 hover:text-js-yellow z-50 p-1"
+          aria-label="Close gallery"
+        >
           <X size={32} />
         </button>
         
-        <button onClick={prev} className="absolute left-6 md:left-10 w-12 h-12 rounded-full border border-white/10 flex items-center justify-center hover:bg-js-yellow hover:text-js-black transition-all z-50">
+        <button
+          type="button"
+          onClick={prev}
+          className="hidden md:flex absolute left-6 lg:left-10 w-12 h-12 rounded-full border border-white/10 items-center justify-center hover:bg-js-yellow hover:text-js-black transition-all z-50"
+          aria-label="Previous image"
+        >
           <ArrowLeft size={24} />
         </button>
 
-        <div className="relative w-full max-w-5xl aspect-video px-4">
+        <div className="relative w-full max-w-5xl aspect-video px-4 max-h-[min(70vh,calc(100vh-8rem))] md:max-h-none pb-28 md:pb-0">
           <motion.img 
             key={currentIndex}
             initial={{ opacity: 0, x: 20 }}
@@ -218,14 +236,38 @@ export default function HomePage() {
             className="w-full h-full object-contain"
             referrerPolicy="no-referrer"
           />
-          <div className="absolute bottom-[-40px] left-1/2 -translate-x-1/2 text-[10px] font-bold uppercase tracking-[0.5em] opacity-40">
+          <div className="absolute bottom-2 left-1/2 -translate-x-1/2 md:bottom-[-40px] text-[10px] font-bold uppercase tracking-[0.5em] opacity-40 pointer-events-none">
             {currentIndex + 1} / {images.length}
           </div>
         </div>
 
-        <button onClick={next} className="absolute right-6 md:right-10 w-12 h-12 rounded-full border border-white/10 flex items-center justify-center hover:bg-js-yellow hover:text-js-black transition-all z-50">
+        <button
+          type="button"
+          onClick={next}
+          className="hidden md:flex absolute right-6 lg:right-10 w-12 h-12 rounded-full border border-white/10 items-center justify-center hover:bg-js-yellow hover:text-js-black transition-all z-50"
+          aria-label="Next image"
+        >
           <ArrowUpRight size={24} className="rotate-45" />
         </button>
+
+        <div className="fixed bottom-0 left-0 right-0 flex md:hidden items-center justify-center gap-10 border-t border-white/10 bg-js-black/95 px-4 py-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] z-[201]">
+          <button
+            type="button"
+            onClick={prev}
+            className="w-12 h-12 rounded-full border border-white/10 flex items-center justify-center hover:bg-js-yellow hover:text-js-black transition-all"
+            aria-label="Previous image"
+          >
+            <ArrowLeft size={24} />
+          </button>
+          <button
+            type="button"
+            onClick={next}
+            className="w-12 h-12 rounded-full border border-white/10 flex items-center justify-center hover:bg-js-yellow hover:text-js-black transition-all"
+            aria-label="Next image"
+          >
+            <ArrowUpRight size={24} className="rotate-45" />
+          </button>
+        </div>
       </div>
     );
   };
@@ -237,12 +279,12 @@ export default function HomePage() {
           variants={container}
           initial="hidden"
           animate="show"
-          className="grid grid-cols-1 md:grid-cols-4 gap-[15px] auto-rows-[200px]"
+          className="grid grid-cols-1 md:grid-cols-4 gap-[15px] auto-rows-min md:auto-rows-[200px]"
         >
           {/* Hero Tile */}
           <motion.div 
             variants={item}
-            className="md:col-span-2 md:row-span-2 metro-tile metro-tile-yellow p-8 flex flex-col justify-between group relative overflow-hidden"
+            className="md:col-span-2 md:row-span-2 metro-tile metro-tile-yellow p-6 sm:p-8 flex flex-col justify-between group relative overflow-hidden min-h-0"
           >
             <div className="absolute -right-10 -top-10 opacity-10 group-hover:opacity-20 transition-opacity">
               <PartyPopper size={200} />
@@ -252,7 +294,7 @@ export default function HomePage() {
                 <h3 className="text-[18px] font-bold uppercase tracking-[1px] opacity-80">Established 2019</h3>
                 <span className="bg-js-black text-js-yellow text-[10px] font-black px-2 py-0.5 rounded-full animate-pulse">5TH ANNIVERSARY</span>
               </div>
-              <h2 className="text-[48px] md:text-[56px] font-extrabold leading-[0.9] tracking-[-2px] uppercase">
+              <h2 className="text-3xl sm:text-4xl md:text-[56px] font-extrabold leading-[0.95] tracking-tight sm:tracking-[-2px] uppercase">
                 5 YEARS OF BUILDING THE ECOSYSTEM.
               </h2>
             </div>
@@ -275,13 +317,13 @@ export default function HomePage() {
             target="_blank"
             rel="noopener noreferrer"
             variants={item}
-            className="md:col-span-2 metro-tile bg-js-yellow/10 border-2 border-js-yellow/30 p-8 flex items-center justify-between group hover:bg-js-yellow/20 transition-all"
+            className="md:col-span-2 metro-tile bg-js-yellow/10 border-2 border-js-yellow/30 p-6 sm:p-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between group hover:bg-js-yellow/20 transition-all"
           >
-            <div className="max-w-[70%]">
-              <h3 className="text-js-yellow font-black text-2xl uppercase tracking-tighter mb-2">Get Your Tickets</h3>
+            <div className="w-full sm:max-w-[70%] min-w-0">
+              <h3 className="text-js-yellow font-black text-xl sm:text-2xl uppercase tracking-tighter mb-2">Get Your Tickets</h3>
               <p className="text-sm opacity-70">All JavaScript Kampala events are officially published on TicketDaddy. Secure your spot now.</p>
             </div>
-            <div className="w-16 h-16 rounded-full bg-js-yellow flex items-center justify-center text-js-black group-hover:scale-110 transition-transform">
+            <div className="w-16 h-16 rounded-full bg-js-yellow flex items-center justify-center text-js-black group-hover:scale-110 transition-transform shrink-0 self-start sm:self-center">
               <Ticket size={32} />
             </div>
           </motion.a>
@@ -352,10 +394,10 @@ export default function HomePage() {
 
         {/* Sponsors Section - Moving Marquee */}
         <section id="sponsors" className="mt-24">
-          <div className="flex items-center gap-4 mb-12">
-            <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tighter">Sponsors</h2>
-            <div className="h-[2px] flex-grow bg-white/10" />
-            <Heart className="text-js-yellow" size={32} />
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4 mb-12">
+            <h2 className="text-3xl sm:text-4xl md:text-6xl font-black uppercase tracking-tighter">Sponsors</h2>
+            <div className="h-[2px] flex-grow bg-white/10 min-w-0 order-2 sm:order-none" />
+            <Heart className="text-js-yellow w-7 h-7 md:w-8 md:h-8 shrink-0 order-3 sm:order-none" strokeWidth={2} />
           </div>
           
           <div className="marquee-container bg-js-dark border-y border-white/5">
@@ -386,10 +428,10 @@ export default function HomePage() {
 
         {/* Community Section */}
         <section id="community" className="mt-24">
-          <div className="flex items-center gap-4 mb-12">
-            <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tighter">Community</h2>
-            <div className="h-[2px] flex-grow bg-white/10" />
-            <Users className="text-js-yellow" size={48} />
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4 mb-12">
+            <h2 className="text-3xl sm:text-4xl md:text-6xl font-black uppercase tracking-tighter">Community</h2>
+            <div className="h-[2px] flex-grow bg-white/10 min-w-0 order-2 sm:order-none" />
+            <Users className="text-js-yellow w-9 h-9 md:w-10 md:h-12 shrink-0 order-3 sm:order-none" strokeWidth={2} />
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="p-8 bg-js-dark border border-white/5">
@@ -409,10 +451,10 @@ export default function HomePage() {
 
         {/* Speakers Section */}
         <section id="speakers" className="mt-24">
-          <div className="flex items-center gap-4 mb-12">
-            <Mic2 className="text-js-yellow" size={48} />
-            <div className="h-[2px] flex-grow bg-white/10" />
-            <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tighter">Speakers</h2>
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4 mb-12">
+            <Mic2 className="text-js-yellow w-9 h-9 md:w-10 md:h-12 shrink-0 order-3 sm:order-none" strokeWidth={2} />
+            <div className="h-[2px] flex-grow bg-white/10 min-w-0 order-2 sm:order-none" />
+            <h2 className="text-3xl sm:text-4xl md:text-6xl font-black uppercase tracking-tighter order-1 sm:order-none">Speakers</h2>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             {SPEAKERS.map((speaker) =>
@@ -460,10 +502,10 @@ export default function HomePage() {
 
         {/* Gallery Section */}
         <section id="gallery" className="mt-24">
-          <div className="flex items-center gap-4 mb-12">
-            <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tighter">Gallery</h2>
-            <div className="h-[2px] flex-grow bg-white/10" />
-            <Archive className="text-js-yellow" size={48} />
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4 mb-12">
+            <h2 className="text-3xl sm:text-4xl md:text-6xl font-black uppercase tracking-tighter">Gallery</h2>
+            <div className="h-[2px] flex-grow bg-white/10 min-w-0 order-2 sm:order-none" />
+            <Archive className="text-js-yellow w-9 h-9 md:w-10 md:h-12 shrink-0 order-3 sm:order-none" strokeWidth={2} />
           </div>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
             {GALLERY_IMAGES.map((img, i) => (
@@ -489,10 +531,12 @@ export default function HomePage() {
         </section>
 
         {/* Footer */}
-        <footer className="mt-24 pt-8 border-t border-[#333] flex flex-col md:flex-row justify-between items-center gap-4 text-[12px] text-js-gray pb-12">
-          <div className="flex items-center gap-4">
+        <footer className="mt-24 pt-8 border-t border-[#333] flex flex-col md:flex-row justify-between items-center gap-6 text-[12px] text-js-gray pb-12 text-center md:text-left">
+          <div className="flex flex-col items-center gap-3 sm:flex-row sm:items-center sm:gap-4 md:items-start">
             <span className="badge">BUILDING SINCE 2019</span>
-            <span className="uppercase tracking-widest opacity-60">KAMPALA, UGANDA // [0.3476° N, 32.5825° E]</span>
+            <span className="uppercase tracking-widest opacity-60 text-balance max-w-[min(100%,28rem)]">
+              KAMPALA, UGANDA // [0.3476° N, 32.5825° E]
+            </span>
           </div>
           <div className="flex flex-wrap justify-center gap-6">
             <a href={SOCIAL_URLS.twitter} target="_blank" rel="noopener noreferrer" className="hover:text-js-yellow transition-colors" aria-label="Twitter"><Twitter size={16} /></a>
