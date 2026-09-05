@@ -10,6 +10,7 @@ import {
   Mail,
   Menu,
   PartyPopper,
+  ShoppingBag,
   Sparkles,
   Ticket,
   Twitter,
@@ -18,12 +19,14 @@ import {
 } from 'lucide-react';
 import {useEffect, useId, useRef, useState, type ReactNode} from 'react';
 import {CONTACT_EMAIL, SOCIAL_URLS, TICKETDADDY_URL} from '../constants';
+import {useCart} from '../context/CartContext';
 
 type SiteChromeProps = {
   children: ReactNode;
 };
 
 export function SiteChrome({children}: SiteChromeProps) {
+  const {totalItemCount} = useCart();
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
   const mobileNavId = useId();
   const menuButtonRef = useRef<HTMLButtonElement>(null);
@@ -172,6 +175,14 @@ export function SiteChrome({children}: SiteChromeProps) {
             <Link to="/#gallery" className="nav-link">
               gallery
             </Link>
+            <Link to="/store" className="nav-link flex items-center gap-1.5 text-js-yellow">
+              store <ShoppingBag size={14} />
+              {totalItemCount > 0 && (
+                <span className="bg-js-yellow text-js-black text-[9px] font-black px-1.5 py-0.5 rounded-full leading-none">
+                  {totalItemCount}
+                </span>
+              )}
+            </Link>
           </nav>
           <button
             ref={menuButtonRef}
@@ -259,6 +270,20 @@ export function SiteChrome({children}: SiteChromeProps) {
                 onClick={closeMobileNav}
               >
                 gallery
+              </Link>
+              <Link
+                to="/store"
+                className={`${mobileNavLinkClass} text-js-yellow flex items-center justify-between`}
+                onClick={closeMobileNav}
+              >
+                <span className="flex items-center gap-2">
+                  store <ShoppingBag size={18} />
+                </span>
+                {totalItemCount > 0 && (
+                  <span className="bg-js-yellow text-js-black text-[10px] font-black px-2 py-0.5 rounded-full">
+                    {totalItemCount}
+                  </span>
+                )}
               </Link>
             </nav>
           </div>
