@@ -328,7 +328,7 @@ export default function HomePage() {
             </div>
           </motion.a>
 
-          {/* Next Meetup / Coders' Cup Tile */}
+          {/* Next Meetup / JSK Code Wars Edition 2 Tile */}
           <motion.a 
             href={TICKETDADDY_URL}
             target="_blank"
@@ -344,7 +344,7 @@ export default function HomePage() {
             </div>
             <div>
               <div className="text-white font-black text-lg uppercase tracking-tight leading-tight mb-1 group-hover:text-js-yellow transition-colors">
-                Kampala Coders&apos; Cup
+                JSK Code Wars Edition 2
               </div>
               <p className="text-xs text-js-yellow font-bold uppercase tracking-wider mb-1">
                 Nov 7 &bull; 2:00 PM – 5:00 PM
