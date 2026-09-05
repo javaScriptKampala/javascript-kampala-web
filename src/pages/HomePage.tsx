@@ -328,18 +328,32 @@ export default function HomePage() {
             </div>
           </motion.a>
 
-          {/* Next Meetup Tile */}
-          <motion.div 
+          {/* Next Meetup / Coders' Cup Tile */}
+          <motion.a 
+            href={TICKETDADDY_URL}
+            target="_blank"
+            rel="noopener noreferrer"
             variants={item}
-            className="metro-tile metro-tile-black p-6 flex flex-col justify-between"
+            className="metro-tile metro-tile-black p-6 flex flex-col justify-between group hover:border-js-yellow transition-all"
           >
-            <h3 className="text-[14px] font-bold uppercase tracking-[1px] opacity-60">Next Meetup</h3>
+            <div className="flex items-center justify-between">
+              <h3 className="text-[14px] font-bold uppercase tracking-[1px] opacity-60">Upcoming Event</h3>
+              <span className="bg-red-500/20 text-red-400 border border-red-500/40 text-[9px] font-black uppercase px-2 py-0.5">
+                Live 1v1 • No AI
+              </span>
+            </div>
             <div>
-              <p className="bg-js-yellow text-js-black font-bold text-sm uppercase px-2 py-1 w-fit">
-                Coming Soon
+              <div className="text-white font-black text-lg uppercase tracking-tight leading-tight mb-1 group-hover:text-js-yellow transition-colors">
+                Kampala Coders&apos; Cup
+              </div>
+              <p className="text-xs text-js-yellow font-bold uppercase tracking-wider mb-1">
+                Nov 7 &bull; 2:00 PM – 5:00 PM
+              </p>
+              <p className="text-[11px] text-white/50 uppercase tracking-widest font-mono">
+                Africa&apos;s Talking Office
               </p>
             </div>
-          </motion.div>
+          </motion.a>
 
           {/* Community Stats Tile */}
           <motion.div 
